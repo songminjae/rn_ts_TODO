@@ -1,5 +1,4 @@
 
-
 export interface Todos {
     org : string[];
     people : string[];
@@ -14,3 +13,9 @@ export interface TodosID {
 };
 
 export type TodosList = TodosID[];
+
+export interface PostData{
+    date: string;
+    text: string;
+    time: string;
+}

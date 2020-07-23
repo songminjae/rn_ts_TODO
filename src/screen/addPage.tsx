@@ -2,17 +2,15 @@ import * as React from 'react';
 import { useState } from "react";
 import { Button, View, TextInput, Text } from 'react-native';
 import { styles } from "./styles";
-
 import firestore from "@react-native-firebase/firestore";
-
-
+import { PostData } from "./types";
 
 export function ProfileScreen({ navigation }) {
-  const [date, setDate] = useState<String>("2020-01-01");
-  const [text, setText] = useState<String>('default text');
-  const [time, setTime] = useState<String>('0');
+  const [date, setDate] = useState<string>("2020-01-01");
+  const [text, setText] = useState<string>('default text');
+  const [time, setTime] = useState<string>('0');
 
-  async function postDate(data : String){
+  async function postDate(data: PostData){
 
     fetch('http://35.213.58.175/api/todo/', {
       method: 'POST',
@@ -28,7 +26,6 @@ export function ProfileScreen({ navigation }) {
     .catch((error) => {
       console.error('Error:', error);
     });
-  
   }
 
     return (
@@ -50,8 +47,6 @@ export function ProfileScreen({ navigation }) {
 
           <Button title="return" onPress={() => navigation.goBack()} />
         </View>
-
-
       </View>
     );
   }
