@@ -13,6 +13,9 @@ target 'rnts_todo' do
     # Pods for testing
   end
 
+  # add pods for desired Firebase products
+  # https://firebase.google.com/docs/ios/setup#available-pods
+  
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and

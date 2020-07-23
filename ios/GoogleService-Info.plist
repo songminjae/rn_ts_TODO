@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>824082057629-jq3sjf4sj2vf9nk9k36cl1sj18jch729.apps.googleusercontent.com</string>
+	<string>824082057629-qfp0ri2us5ri7hat87ngd8f6roeh7qkr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.824082057629-jq3sjf4sj2vf9nk9k36cl1sj18jch729</string>
+	<string>com.googleusercontent.apps.824082057629-qfp0ri2us5ri7hat87ngd8f6roeh7qkr</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDCPAi7xb69Dn8bYOVLjjCHJ9PTfQj40Nw</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.rnts-todo</string>
+	<string>org.reactjs.native.example.rnts-todoorg.reactjs.native.example.rnts-todoorg.reactjs.native.example.rnts-todo</string>
 	<key>PROJECT_ID</key>
 	<string>todo-practice-3fe29</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:824082057629:ios:f69751598cf89464468774</string>
+	<string>1:824082057629:ios:98ccb0a69d82c31c468774</string>
 	<key>DATABASE_URL</key>
 	<string>https://todo-practice-3fe29.firebaseio.com</string>
 </dict>
