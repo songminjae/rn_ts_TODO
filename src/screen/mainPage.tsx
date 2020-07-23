@@ -5,7 +5,11 @@ import { useState, useEffect } from "react";
 import CalendarStrip from 'react-native-slideable-calendar-strip';
 import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { Todos, TodosID ,TodosList } from "./types";
+
 import firestore from "@react-native-firebase/firestore";
+
 
 export var selectedDate = new Date();
 
@@ -15,47 +19,42 @@ export interface dateCheck{
 }
 
 export function HomeScreen({ navigation }) {
-  const [transferdate, setTransferdate] = useState("2020-07-23");
+  const [transferdate, setTransferdate] = useState("2020-07-26");
   // const [ todo, setTodo ] = useState('');
   const [loading, setLoading] = useState(true);
   const [todos, setTodos] = useState([]);
-  const db = firestore().collection('todos');
+  // const db = firestore().collection('todos');
 
-  // const [data, setData] = useState(
-  //   [
-  //     {data: "2020-09-07", text: "핀토스", time: "01"},
-  //     {data: "2020-09-07", text: "핀토스", time: "02"},
-  //   ],
-  // );
+  const db2 = firestore().collection('todos').doc(transferdate).collection('items');
 
   console.log("transferdate touch:",transferdate);
     
     async function addTodo(){
-      await db.add({Date: "2020-07-23", Text: "밥", Time: "01"});
+      // await db.add({Date: "2020-07-23", Text: "밥", Time: "01"});
       console.log('suc add');
     }
-    
+
     useEffect(() => {
-      return db.onSnapshot((querySnapshot) => {
-        const list = [];
-        // querySnapshot.query.where("Date", "==", transferdate).orderBy("Date");
-        querySnapshot.forEach(doc =>{ 
-          const {Date, Text, Time} =doc.data();
+      return db2.onSnapshot((querySnapshot) => {
+        const list: TodosList = [];
+        let entry: Todos = {} as Todos;
+        let id: string = "";
+        
 
-          list.push({
-            id: doc.id,
-            Date,
-            Text,
-            Time,
-          });
+        querySnapshot.forEach((doc: any) => { 
+          entry = doc.data() as Todos;
+          id = doc.id;
+          list.push( {entry, id} );
         });
-
+        
+        console.log('omg',list);
+        
         setTodos(list);
 
         if(loading){
           setLoading(false);
         }
-        console.log(todos);
+        console.log('hoho:',todos);
       });
     }, []);
 
@@ -90,19 +89,21 @@ export function HomeScreen({ navigation }) {
 
        <SafeAreaView style={styles.wrap}> 
           
-          <Button title="add todo" onPress={()=>addTodo()}></Button>
+          {/* <Button title="add todo" onPress={()=>addTodo()}></Button> */}
 
             <FlatList
               data = {todos}
               keyExtractor = {(item)=>item.id}
-              renderItem={({item}) =>{
+              renderItem={({item} : {item: TodosID}) =>{
+                console.log('ssss',item);
                 return(
                   <TouchableOpacity onPress={()=>{Alert.alert('delete?')}}>
                     <View style={{borderWidth:1, borderRadius: 8, padding:8, margin:8}}>
-                      {/* <Text>{item.key}</Text> */}
-                      <Text>Date: {item.Date}</Text>
-                      <Text>Text: {item.Text}</Text>
-                      <Text>Time: {item.Time}</Text>
+                      <Text>org: {item.entry.org}</Text>
+                      <Text>people: {item.entry.people} </Text>
+                      <Text>place: {item.entry.place}</Text>
+                      <Text>text: {item.entry.text}</Text>
+                      <Text>time: {item.entry.place}</Text>
                     </View>                    
                   </TouchableOpacity>
                 );
