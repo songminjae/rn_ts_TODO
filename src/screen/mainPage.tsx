@@ -8,20 +8,30 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Todos, TodosID ,TodosList } from "./types";
 import firestore from "@react-native-firebase/firestore";
 
+function completeTrans(raw: number){
+  let rawString: string;
+  if(raw < 10){
+    rawString = "0"+ String(raw);
+  }else{
+    rawString = String(raw);
+  }
+  return rawString;
+}
+
 export function HomeScreen({ navigation }) {
-  const [transferdate, setTransferdate] = useState<string>("2020-07-26");
+  // const [transferdate, setTransferdate] = useState<string>("2020-07-26");
   // const [ todo, setTodo ] = useState('');
   const [loading, setLoading] = useState<Boolean>(true);
   const [todos, setTodos] = useState<TodosList>([]);
   const [selectedDate, setSD] = useState<Date>(new Date());
-
-  const db2 = firestore().collection('todos').doc(transferdate).collection('items');
-
-  console.log("transferdate touch:",transferdate);
-  console.log('selectedDate:', selectedDate.getFullYear() + "-" + selectedDate.getMonth() + "-" + selectedDate.getDate());
+  let pickeddate: string = selectedDate.getFullYear() + "-" + completeTrans(selectedDate.getMonth()) + "-" + completeTrans(selectedDate.getDate());
+  const db2 = firestore().collection('todos');
 
     useEffect(() => {
-      return db2.onSnapshot((querySnapshot) => {
+      console.log('in useEffect before return');
+
+      return db2.doc(pickeddate).collection('items').onSnapshot((querySnapshot) => {
+        console.log('in useEffect after return');
         const list: TodosList = [];
         let entry: Todos = {} as Todos;
         let id: string = "";
@@ -31,14 +41,17 @@ export function HomeScreen({ navigation }) {
           id = doc.id;
           list.push( {entry, id} );
         });
+
+        console.log('hoho1:',todos);
         console.log('omg',list);
         setTodos(list);
+        console.log('hoho2:',todos);
         if(loading){
           setLoading(false);
         }
-        console.log('hoho:',todos);
+        
       });
-    }, []);
+    }, [selectedDate]);
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -50,6 +63,7 @@ export function HomeScreen({ navigation }) {
           selectedDate={selectedDate}
           onPressDate={(date: any) => {
             setSD(date);
+            console.log('press date button');
           }}
           onPressGoToday={(today: any) => {
             setSD(today);
