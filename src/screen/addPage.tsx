@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, View, TextInput, Text } from 'react-native';
 import { styles } from "./styles";
 import firestore from "@react-native-firebase/firestore";
-import { PostData } from "./types";
+import { PostData } from "../types";
 
 export function ProfileScreen({ navigation }) {
   const [date, setDate] = useState<string>("2020-01-01");

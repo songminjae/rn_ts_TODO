@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import CalendarStrip from 'react-native-slideable-calendar-strip';
 import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Todos, TodosID ,TodosList } from "./types";
+import { Todos, TodosID ,TodosList } from "../types";
 import firestore from "@react-native-firebase/firestore";
 
 function completeTrans(raw: number){
@@ -18,14 +18,16 @@ function completeTrans(raw: number){
   return rawString;
 }
 
+const db2 = firestore().collection('todos');
+
 export function HomeScreen({ navigation }) {
   // const [transferdate, setTransferdate] = useState<string>("2020-07-26");
   // const [ todo, setTodo ] = useState('');
+  const [id, setID]= useState<string>("");
   const [loading, setLoading] = useState<Boolean>(true);
   const [todos, setTodos] = useState<TodosList>([]);
   const [selectedDate, setSD] = useState<Date>(new Date());
   let pickeddate: string = selectedDate.getFullYear() + "-" + completeTrans(selectedDate.getMonth()) + "-" + completeTrans(selectedDate.getDate());
-  const db2 = firestore().collection('todos');
 
     useEffect(() => {
       console.log('in useEffect before return');
@@ -84,14 +86,17 @@ export function HomeScreen({ navigation }) {
               keyExtractor = {(item)=>item.id}
               renderItem={({item} : {item: TodosID}) =>{
                 return(
-                  <TouchableOpacity onPress={()=>{Alert.alert('delete?')}}>
+                  <TouchableOpacity>
                     <View style={{borderWidth:1, borderRadius: 8, padding:8, margin:8}}>
                       <Text>org: {item.entry.org}</Text>
                       <Text>people: {item.entry.people} </Text>
                       <Text>place: {item.entry.place}</Text>
                       <Text>text: {item.entry.text}</Text>
                       <Text>time: {item.entry.time}</Text>
-                    </View>                    
+                      <Button title = {"update"} onPress={()=> updateItem(item, pickeddate )}></Button>
+                      <Button title = {"delete"} onPress={()=>deleteItem(item.id, pickeddate)} ></Button>     
+                    </View> 
+              
                   </TouchableOpacity>
                 );
               }} 
@@ -99,4 +104,18 @@ export function HomeScreen({ navigation }) {
         </SafeAreaView>
       </View>
     );
+  }
+
+  function deleteItem(id: string, date: string){
+    const db = db2.doc(date).collection('items');
+    // db.delete().then({
+    //   console.log('removed')
+    // })
+    
+  }
+
+  function updateItem(item : TodosID, date: string){
+    const db = db2.doc(date).collection('items');
+
+
   }

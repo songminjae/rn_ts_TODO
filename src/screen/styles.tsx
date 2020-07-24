@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 export var styles = StyleSheet.create({
   wrap: {
     flex: 1,
+    width:350,
     paddingTop: 20,
     backgroundColor: '#fff',
   },
