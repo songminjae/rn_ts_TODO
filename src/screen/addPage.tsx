@@ -10,6 +10,8 @@ export function ProfileScreen({ navigation }) {
   const [text, setText] = useState<string>('default text');
   const [time, setTime] = useState<string>('0');
 
+  const [res, setRes] = useState<string>('');
+
   async function postDate(data: PostData){
 
     fetch('http://35.213.58.175/api/todo/', {
@@ -22,6 +24,7 @@ export function ProfileScreen({ navigation }) {
     .then(response => response.json())
     .then(data => {
       console.log('Success:', data);
+      setRes(data);
     })
     .catch((error) => {
       console.error('Error:', error);

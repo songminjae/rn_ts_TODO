@@ -28,12 +28,12 @@ export function HomeScreen({ navigation }) {
   const [todos, setTodos] = useState<TodosList>([]);
   const [selectedDate, setSD] = useState<Date>(new Date());
   let pickeddate: string = selectedDate.getFullYear() + "-" + completeTrans(selectedDate.getMonth()) + "-" + completeTrans(selectedDate.getDate());
-
+  console.log("date: ", pickeddate);
     useEffect(() => {
-      console.log('in useEffect before return');
+      // console.log('in useEffect before return');
 
       return db2.doc(pickeddate).collection('items').onSnapshot((querySnapshot) => {
-        console.log('in useEffect after return');
+        // console.log('in useEffect after return');
         const list: TodosList = [];
         let entry: Todos = {} as Todos;
         let id: string = "";
@@ -43,7 +43,7 @@ export function HomeScreen({ navigation }) {
           id = doc.id;
           list.push( {entry, id} );
         });
-
+        
         console.log('hoho1:',todos);
         console.log('omg',list);
         setTodos(list);
@@ -107,11 +107,14 @@ export function HomeScreen({ navigation }) {
   }
 
   function deleteItem(id: string, date: string){
-    const db = db2.doc(date).collection('items');
-    // db.delete().then({
-    //   console.log('removed')
-    // })
-    
+    const db = db2.doc(date).collection('items').doc(id);
+
+    db.delete().then((res)=> {
+      console.log('delete');
+    })
+
+
+
   }
 
   function updateItem(item : TodosID, date: string){
