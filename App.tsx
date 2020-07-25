@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NotificationsScreen } from "./src/screen/notifyPage";
 import { HomeScreen } from "./src/screen/mainPage";
 import { ProfileScreen } from "./src/screen/addPage";
+import { UpdateScreen } from "./src/screen/updatePage";
 
 const Stack = createStackNavigator();
 
@@ -16,7 +17,7 @@ export default function App(){
         <Stack.Screen name='TODO' component={HomeScreen}/>
         <Stack.Screen name='Add Schedule' component={ProfileScreen}/>
         <Stack.Screen name='Notifications' component={NotificationsScreen}/>
-        
+        <Stack.Screen name='UpdateScene' component={UpdateScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

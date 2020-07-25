@@ -7,6 +7,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Todos, TodosID ,TodosList } from "../types";
 import firestore from "@react-native-firebase/firestore";
+import { NavigationContainer } from '@react-navigation/native';
 
 function completeTrans(raw: number){
   let rawString: string;
@@ -20,7 +21,7 @@ function completeTrans(raw: number){
 
 const db2 = firestore().collection('todos');
 
-export function HomeScreen({ navigation }) {
+export function HomeScreen({ navigation: Navigation }) {
   // const [transferdate, setTransferdate] = useState<string>("2020-07-26");
   // const [ todo, setTodo ] = useState('');
   const [id, setID]= useState<string>("");
@@ -44,14 +45,13 @@ export function HomeScreen({ navigation }) {
           list.push( {entry, id} );
         });
         
-        console.log('hoho1:',todos);
-        console.log('omg',list);
+        // console.log('hoho1:',todos);
+        // console.log('omg',list);
         setTodos(list);
-        console.log('hoho2:',todos);
+        // console.log('hoho2:',todos);
         if(loading){
           setLoading(false);
         }
-        
       });
     }, [selectedDate]);
 
@@ -78,7 +78,7 @@ export function HomeScreen({ navigation }) {
         />        
         <Button
           title="Add"
-          onPress={() => navigation.navigate('Add Schedule')}
+          onPress={() => navigation.navigate('Add Schedule', {date: pickeddate})}
         />
        <SafeAreaView style={styles.wrap}> 
             <FlatList 
@@ -93,7 +93,7 @@ export function HomeScreen({ navigation }) {
                       <Text>place: {item.entry.place}</Text>
                       <Text>text: {item.entry.text}</Text>
                       <Text>time: {item.entry.time}</Text>
-                      <Button title = {"update"} onPress={()=> updateItem(item, pickeddate )}></Button>
+                      <Button title = {"update"} onPress={()=> updateItem(item, navigation, pickeddate )}></Button>
                       <Button title = {"delete"} onPress={()=>deleteItem(item.id, pickeddate)} ></Button>     
                     </View> 
               
@@ -112,13 +112,17 @@ export function HomeScreen({ navigation }) {
     db.delete().then((res)=> {
       console.log('delete');
     })
-
-
-
   }
 
-  function updateItem(item : TodosID, date: string){
-    const db = db2.doc(date).collection('items');
+  function updateItem(item : TodosID, navigation, pickeddate: string ){
+    // const db = db2.doc(date).collection('items');
 
+    console.log(item.entry.text);
+    console.log(pickeddate);
+    console.log(item.entry.time);
+    console.log(item.id);
+    console.log("넘어갈때");
+
+    navigation.navigate('UpdateScene', {text: item.entry.text, date: pickeddate, time:item.entry.time , id: item.id});
 
   }

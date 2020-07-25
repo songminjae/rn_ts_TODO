@@ -19,3 +19,20 @@ export interface PostData{
     text: string;
     time: string;
 }
+
+export interface PostDateID{
+    id: string;
+    pd: PostData
+}
+
+export interface Navigation {
+    navigation: {
+        navigate: (route: string, params?: any) => void;
+        push: (route: string) => void;
+        goBack: () => void;
+        addListener: (focus: string, callback: () => void) => void;
+    };
+    route: {
+        params: any;
+    };
+}
