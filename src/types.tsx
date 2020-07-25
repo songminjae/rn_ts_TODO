@@ -26,8 +26,10 @@ export interface PostDateID{
 }
 
 export interface Navigation {
+    
+    navigate: (route: string, params?: any) => void;
     navigation: {
-        navigate: (route: string, params?: any) => void;
+        
         push: (route: string) => void;
         goBack: () => void;
         addListener: (focus: string, callback: () => void) => void;

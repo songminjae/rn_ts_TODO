@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import CalendarStrip from 'react-native-slideable-calendar-strip';
 import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Todos, TodosID ,TodosList } from "../types";
+import { Todos, TodosID ,TodosList, Navigation } from "../types";
 import firestore from "@react-native-firebase/firestore";
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -21,7 +21,7 @@ function completeTrans(raw: number){
 
 const db2 = firestore().collection('todos');
 
-export function HomeScreen({ navigation: Navigation }) {
+export function HomeScreen(navigation: Navigation) {
   // const [transferdate, setTransferdate] = useState<string>("2020-07-26");
   // const [ todo, setTodo ] = useState('');
   const [id, setID]= useState<string>("");
@@ -58,7 +58,7 @@ export function HomeScreen({ navigation: Navigation }) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             
-        <CalendarStrip 
+        <CalendarStrip  // be careful!! due to library problem I believe month and date is a little bit different 
           isChinese
           showWeekNumber
           showChineseLunar
@@ -74,7 +74,7 @@ export function HomeScreen({ navigation: Navigation }) {
             Alert.alert('onSwipeDown');
           }}
           markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
-          weekStartsOn={0} // 0,1,2,3,4,5,6 for S M T W T F S, defaults to 0
+          weekStartsOn={0}
         />        
         <Button
           title="Add"
@@ -114,7 +114,7 @@ export function HomeScreen({ navigation: Navigation }) {
     })
   }
 
-  function updateItem(item : TodosID, navigation, pickeddate: string ){
+  function updateItem(item : TodosID, navigation: Navigation, pickeddate: string ){
     // const db = db2.doc(date).collection('items');
 
     console.log(item.entry.text);
